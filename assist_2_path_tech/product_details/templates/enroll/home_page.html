@@ -1,0 +1,61 @@
+{% extends 'enroll/base.html'%}
+{% block content%}
+<div class="row">
+    <div class="col-sm-4">
+        <h4 class="text-center alert alert-info"> Add New Product</h4>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{forms.as_p}}
+            <input type="submit" class="btn btn-success" value="Add Product">
+        </form>
+        <form onsubmit="" class="form-inline my-2 my-lg-0" method="post">{% csrf_token%}
+          <input class="form control mr-sm-2" type="search" placeholder="search" aria-label="search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+        </form>        
+    </div>
+    <div class="col-sm-7 offset-1">
+        <h4 class="text-center alert alert-info">Products Record</h4>
+        {% if stu %}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Product_Name</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
+                  <th scope="col">Edit & Delete</th>
+                  
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in stu%}
+
+                <tr>
+                  <th scope="row">{{i.id}}</th>
+                  <td>{{i.Product_Name}}</td>
+                  <td>{{i.Price}}</td>
+                  <td>{{i.Quantity}}</td>
+                  <td>
+                    <a href="{% url 'update_product' i.id %}">
+                      <input type="submit" class="btn btn-success" value="Edit">
+                    </a>
+                    <form action="{% url 'delete_product' i.id%}" method="post" class="d-inline"> {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </form>
+                    
+
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                {% endfor %}
+              </tbody>
+          </table>
+        {% else %}
+        <h4 class="text-center alert alert-warning">No products</h4>        
+        {% endif %}
+    </div>
+</div>
+{% endblock content%}
